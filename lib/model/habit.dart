@@ -4,45 +4,46 @@ class Habit {
   final String description;
   final String iconName;
   final int colorValue;
-  final DateTime createdAt;
+  final DateTime createdDate;
   bool isCompleted;
   int streak;
 
   Habit({
     required this.id,
     required this.name,
-    required this.description,
+    this.description = '',
     required this.iconName,
     required this.colorValue,
-    required this.createdAt,
+    DateTime? createdDate,
     this.isCompleted = false,
     this.streak = 0,
-  });
+  }) : createdDate = createdDate ?? DateTime.now();
 
-  // DATA CONVERSION
-  Map<String, dynamic> toMap() {
+  // DATA CONVERSION TO JSON
+  Map<String, dynamic> toJson() {
     return {
       'id': id,
       'name': name,
       'description': description,
       'iconName': iconName,
       'colorValue': colorValue,
-      'createdAt': createdAt.toIso8601String(),
+      'createdDate': createdDate.toIso8601String(),
       'isCompleted': isCompleted,
       'streak': streak,
     };
   }
 
-  factory Habit.fromMap(Map<String, dynamic> map) {
+  // JSON MAP CREATION
+  factory Habit.fromJson(Map<String, dynamic> json) {
     return Habit(
-      id: map['id'],
-      name: map['name'],
-      description: map['description'],
-      iconName: map['iconName'],
-      colorValue: map['colorValue'],
-      createdAt: DateTime.parse(map['createdAt']),
-      isCompleted: map['isCompleted'],
-      streak: map['streak'],
+      id: json['id'],
+      name: json['name'],
+      description: json['description'],
+      iconName: json['iconName'],
+      colorValue: json['colorValue'],
+      createdDate: DateTime.parse(json['createdDate']),
+      isCompleted: json['isCompleted'],
+      streak: json['streak'],
     );
   }
 
@@ -52,7 +53,7 @@ class Habit {
     String? description,
     String? iconName,
     int? colorValue,
-    DateTime? createdAt,
+    DateTime? createdDate,
     bool? isCompleted,
     int? streak,
   }) {
@@ -62,7 +63,7 @@ class Habit {
       description: description ?? this.description,
       iconName: iconName ?? this.iconName,
       colorValue: colorValue ?? this.colorValue,
-      createdAt: createdAt ?? this.createdAt,
+      createdDate: createdDate ?? this.createdDate,
       isCompleted: isCompleted ?? this.isCompleted,
       streak: streak ?? this.streak,
     );
